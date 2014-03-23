@@ -1,0 +1,96 @@
+#!/bin/sh
+# AMW 2014-03-23
+# 
+# shell_setup
+#  
+
+
+# Github User Name
+#echo -n "Enter Github username > "
+USER="kainolophobia"
+
+# Log into Github, get authentication token
+TOKEN=`curl -s -X PUT -u $USER -d '{"client_secret": "d3f487beaa6aa7c039fd4f6717bbadd8728c45ac", "scopes":["user", "admin:public_key"], "note":"wu_dev_env2"}' https://api.github.com/authorizations/clients/b0664dc040bf3f3bc253 | python -c "
+import json, sys;
+response = json.load(sys.stdin)
+if (response and response.get('token')):
+    print response['token']
+else:
+    print '' "`
+
+echo $TOKEN
+if [ -z "$TOKEN" ]; then
+    echo "GIthub authentication failed"
+    echo " " > /etc/task
+    exit
+fi
+
+
+# OAUTH String
+OAUTH="Authorization: token $TOKEN"
+
+# SSH key name variables
+SSH_KEY_TITLE="dev-$HOSTNAME"
+SSH_KEY_FILENAME="dev-$HOSTNAME"
+
+# Setup local Git settings
+GIT_USER_NAME=`curl -s -H "$OAUTH" https://api.github.com/user | python -c "import json, sys; [sys.stdout.write(json.load(sys.stdin)['name'])]"`
+GIT_USER_EMAIL=`curl -s -H "$OAUTH" https://api.github.com/user | python -c "import json, sys; [sys.stdout.write(json.load(sys.stdin)['email'])]"`
+echo $GIT_USER_NAME
+git config --global user.name "$GIT_USER_NAME"
+echo $GIT_USER_EMAIL
+git config --global user.email $GIT_USER_EMAIL
+git config --global color.ui true #because colors are awesome
+
+
+#Confusing Key_id assignment:
+#   curl Github for the logged in user's keys
+#   Pipe keylist to python script
+#   Find the key that matches the task-based key title, empty if none found
+SSH_KEY_ID=`curl -s -H "$OAUTH" https://api.github.com/user/keys | python -c "
+import json, sys;
+for x in json.load(sys.stdin):
+    if(x.get('title') and (x['title'] == '$SSH_KEY_TITLE')):
+        if(x.get('id')):
+            print x['id']
+            break"`
+
+# Create new ssh key, named the same way as the Github title for the key
+echo
+echo "CREATING NEW SSH KEY"
+echo "#################################################################"
+echo "yes" | ssh-keygen -t rsa -N "" -f ~/.ssh/$SSH_KEY_FILENAME
+SSH_KEY=`cat ~/.ssh/$SSH_KEY_FILENAME.pub`
+
+JSON_KEY_RESPONSE='{
+      "title": "'"$SSH_KEY_TITLE"'",
+      "key": "'"$SSH_KEY"'"
+}'
+
+echo
+echo "UPDATING GITHUB WITH NEW KEY"
+echo "#################################################################"
+if [ -z "$SSH_KEY_ID" ]; then
+# Add new key to repo if key with name doesn't exist
+    curl -s -H "$OAUTH" -H "Content-Type: application/json" -d "$JSON_KEY_RESPONSE" https://api.github.com/user/keys
+    echo
+    echo "Couldn't find ID for Key: $SSH_KEY_TITLE, created new key"
+else
+# Update key for repo
+    curl -s -H "$OAUTH" -H "Content-Type: application/json" -X DELETE https://api.github.com/user/keys/$SSH_KEY_ID
+    curl -s -H "$OAUTH" -H "Content-Type: application/json" -d "$JSON_KEY_RESPONSE" https://api.github.com/user/keys
+    echo
+    echo "Found ID: $SSH_KEY_ID for Key: $SSH_KEY_TITLE, deleted old key and created new key"
+fi
+
+echo "Host github.com" >> /root/.ssh/config
+echo "IdentityFile ~/.ssh/$SSH_KEY_FILENAME" >> /root/.ssh/config
+
+# run init scripts
+#/root/scripts/shell_update_apply_puppet
+
+
+# Yum packages
+#yum -y install vim
+
+
