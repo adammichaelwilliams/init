@@ -11,7 +11,7 @@ Setup dev environment:
 
 Get git (you should also install python if you don't have it):
 ```
-yum -y install git
+apt-get -y install git
 ```
 Clone this repo
 ```
