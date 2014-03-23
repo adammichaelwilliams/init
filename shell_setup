@@ -7,6 +7,7 @@
 
 # Github User Name
 #echo -n "Enter Github username > "
+#read USER
 USER="kainolophobia"
 
 # Log into Github, get authentication token
