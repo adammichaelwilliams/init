@@ -96,7 +96,7 @@ echo "IdentityFile ~/.ssh/$SSH_KEY_FILENAME" >> /root/.ssh/config
 apt-get -y install vim
 
 # Install vimrc and vim bundle stuff
-cp ~/init/vimrc ~/.vimrc
+cp ~/init/files/vimrc ~/.vimrc
 
 rm -rf ~/.vim/bundle/vundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle

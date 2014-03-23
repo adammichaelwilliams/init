@@ -1,0 +1,41 @@
+#!/bin/bash
+#
+# Taken from:
+# http://www.neo4j.org/download/linux
+
+# start root shell (root on DigitalOcean already)
+#sudo -s
+
+#If you want Oracle Java
+#sudo apt-get install python-software-properties
+#sudo add-apt-repository ppa:webupd8team/java
+#sudo apt-get update
+#sudo apt-get install oracle-java7-installer
+
+
+# Import our signing key
+wget -O - http://debian.neo4j.org/neotechnology.gpg.key | apt-key add - 
+
+# Create an Apt sources.list file
+echo 'deb http://debian.neo4j.org/repo stable/' > /etc/apt/sources.list.d/neo4j.list
+
+# Find out about the files in our repository
+sudo apt-get update
+
+# Install Neo4j, community edition
+sudo apt-get install neo4j
+
+# start neo4j server, available at http://localhost:7474 of the target machine
+#neo4j start
+service neo4j-service status
+
+
+# Only if you want neo4j server settings such as:
+#   Set port to :7447 
+#   Open to the world (anyone can access your DB - DANGEROUS)
+#   Limit queries to 20 seconds
+# BE CAREFUL
+#service neo4j-service stop
+#cp ~/init/files/neo4j-server.properties /var/lib/neo4j/conf/
+#service neo4j-service start
+

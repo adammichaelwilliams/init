@@ -20,6 +20,7 @@ git clone https://github.com/kainolophobia/init.git
 Run setup scripts
 ```
 cd init
+chmod +x shell_setup
 ./shell_setup
 ```
 
