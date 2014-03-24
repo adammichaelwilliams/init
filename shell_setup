@@ -110,9 +110,10 @@ cp ~/init/molokai/colors/molokai.vim ~/.vim/colors/molakai.vim
 rm -rf ~/init/molokai
 
 
+cd ~/init/
 # Install Neo4j
-shell_install_neo4j
+sh shell_install_neo4j
 
 # Install node.js
-shell_install_node
+sh shell_install_node
 
