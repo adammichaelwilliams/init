@@ -3,8 +3,6 @@
 # Taken from:
 # http://www.neo4j.org/download/linux
 
-# start root shell (root on DigitalOcean already)
-#sudo -s
 
 #If you want Oracle Java
 #sudo apt-get install python-software-properties

@@ -3,9 +3,6 @@
 # Taken from:
 # http://www.neo4j.org/download/linux
 
-# start root shell (root on DigitalOcean already)
-#sudo -s
-
 sudo apt-get update
 sudo apt-get install -y python-software-properties python g++ make
 sudo apt-get install -y software-properties-common
