@@ -31,8 +31,16 @@ fi
 OAUTH="Authorization: token $TOKEN"
 
 # SSH key name variables
+
+
 SSH_KEY_TITLE="dev-$HOSTNAME"
 SSH_KEY_FILENAME="dev-$HOSTNAME"
+
+if [ -z "$HOSTNAME" ]; then
+    SSH_KEY_TITLE="dev-dev"
+    SSH_KEY_FILENAME="dev-dev"
+fi
+
 
 # Setup local Git settings
 GIT_USER_NAME=`curl -s -H "$OAUTH" https://api.github.com/user | python -c "import json, sys; [sys.stdout.write(json.load(sys.stdin)['name'])]"`
