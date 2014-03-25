@@ -109,8 +109,8 @@ git clone https://github.com/tomasr/molokai.git
 if [ ! -d "~/.vim/colors" ]; then
     mkdir ~/.vim/colors
 fi
-cp ~/init/molokai/colors/molokai.vim ~/.vim/colors/molakai.vim
-rm -rf ~/init/molokai
+cp ~/molokai/colors/molokai.vim ~/.vim/colors/molakai.vim
+rm -rf ~/molokai
 
 
 # Install vimrc and vim bundle stuff
