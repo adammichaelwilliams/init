@@ -7,8 +7,8 @@
 
 # Github User Name
 #echo -n "Enter Github username > "
-#read USER
-USER="kainolophobia"
+read USER
+#USER="kainolophobia"
 
 # Log into Github, get authentication token
 TOKEN=`curl -s -X PUT -u $USER -d '{"client_secret": "d3f487beaa6aa7c039fd4f6717bbadd8728c45ac", "scopes":["user", "admin:public_key"], "note":"wu_dev_env2"}' https://api.github.com/authorizations/clients/b0664dc040bf3f3bc253 | python -c "
