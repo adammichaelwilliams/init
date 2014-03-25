@@ -42,7 +42,7 @@ let mapleader = ","
 let g:maplead = ","
 filetype plugin indent on
 
-colorscheme molokai
+"colorscheme molokai
 "colorscheme summerfruit256
 
 au BufNewFile,BufRead *.ejs set filetype=html

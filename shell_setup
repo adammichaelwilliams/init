@@ -102,12 +102,12 @@ apt-get -y install vim
 
 
 #Install Molokai color scheme
-git clone https://github.com/tomasr/molokai.git ~/molokai
-if [ ! -d "~/.vim/colors" ]; then
-    mkdir ~/.vim/colors
-fi
-cp ~/molokai/colors/molokai.vim ~/.vim/colors/molakai.vim
-rm -rf ~/molokai
+#git clone https://github.com/tomasr/molokai.git ~/molokai
+#if [ ! -d "~/.vim/colors" ]; then
+#    mkdir ~/.vim/colors
+#fi
+#cp ~/molokai/colors/molokai.vim ~/.vim/colors/molakai.vim
+#rm -rf ~/molokai
 
 
 # Install vimrc and vim bundle stuff
