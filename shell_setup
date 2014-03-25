@@ -95,9 +95,6 @@ fi
 echo "Host github.com" >> /root/.ssh/config
 echo "IdentityFile ~/.ssh/$SSH_KEY_FILENAME" >> /root/.ssh/config
 
-# run init scripts
-#/root/scripts/shell_update_apply_puppet
-
 
 # Yum packages
 #yum -y install vim
@@ -105,7 +102,7 @@ apt-get -y install vim
 
 
 #Install Molokai color scheme
-git clone https://github.com/tomasr/molokai.git
+git clone https://github.com/tomasr/molokai.git ~/molokai
 if [ ! -d "~/.vim/colors" ]; then
     mkdir ~/.vim/colors
 fi
