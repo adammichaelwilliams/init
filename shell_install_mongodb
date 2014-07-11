@@ -1,0 +1,25 @@
+#!/bin/bash
+
+apt-get install -y mongodb
+
+function initMongo {
+    echo "Initializing drywall-based mongodb member table with root email: $1"
+    mongo <<EOF
+    use annslist;
+    db.admingroups.insert({ _id: 'root', name: 'Root' });
+    db.admins.insert({ name: {first: 'Root', last: 'Admin', full: 'Root Admin'}, groups: ['root'] });
+    var rootAdmin = db.admins.findOne();
+    db.users.save({ username: 'root', isActive: 'yes', email: '$1', roles: {admin: rootAdmin._id} });
+    var rootUser = db.users.findOne();
+    rootAdmin.user = { id: rootUser._id, name: rootUser.username };
+    db.admins.save(rootAdmin);
+EOF
+}
+
+if [ -z $1 ]; then
+    echo "Provide an email to initialize drywall-based mongoDB user database"
+else
+    initMongo $1
+fi
+
+
